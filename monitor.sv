@@ -20,21 +20,22 @@ task monitor::run();
     // Wait for reset to be applied and removed
     do begin
         @(posedge acif.clk);
-        rst_tmp = acif.cb.rst;
+        rst_tmp = acif.rst;
     end while (rst_tmp == 0);
 
     do begin
         @(posedge acif.clk);
-        rst_tmp = acif.cb.rst;
+        rst_tmp = acif.rst;
     end while (rst_tmp == 1);
 
     // Monitor DUT output in each clock cycle
     forever begin
         @(posedge acif.clk);
-        tr.sum = acif.cb.sum;          // Read DUT sum output
-        mbx.put(tr);                   // Send the transaction to the scoreboard
+        tr.sum = acif.cb.sum;  // Read DUT sum output from clocking block
+        mbx.put(tr);           // Send the transaction to the scoreboard
     end
 endtask : run
+
 
 
 task monitor::wrap_up();
