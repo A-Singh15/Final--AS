@@ -11,3 +11,4 @@ test tst(acif); //Test Program
 accumulator dut(.sum(acif.sum), .in(acif.in), .rst(acif.rst), .clk(clk)); //Design Under Test
 
 endmodule
+
