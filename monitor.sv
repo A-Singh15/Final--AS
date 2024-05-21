@@ -15,15 +15,18 @@ endfunction : new
 
 
 task monitor::run();
-	//write the run task here
+    // Wait for reset to be applied and removed
+    wait (acif.cb.rst == 1);
+    wait (acif.cb.rst == 0);
 
-
-
-
-
-
-
+    // Monitor DUT output in each clock cycle
+    forever begin
+        @(posedge acif.cb.clk);
+        tr.sum = acif.cb.sum;          // Read DUT sum output
+        mbx.put(tr);                   // Send the transaction to the scoreboard
+    end
 endtask : run
+
 	
 task monitor::wrap_up();
 	//empty for now
