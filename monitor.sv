@@ -21,19 +21,19 @@ task monitor::run();
     // Wait for reset to be applied and removed
     do begin
         @(posedge acif.clk);
-        rst_tmp = acif.cb.rst;
+        rst_tmp = acif.rst;  // Access the rst signal directly from the interface
     end while (rst_tmp == 0);
 
     do begin
         @(posedge acif.clk);
-        rst_tmp = acif.cb.rst;
+        rst_tmp = acif.rst;  // Access the rst signal directly from the interface
     end while (rst_tmp == 1);
 
     // Monitor DUT output in each clock cycle
     for (int i = 0; i < 100; i++) begin
         @(posedge acif.clk);
-        tr.sum = acif.cb.sum;  // Read DUT sum output from clocking block
-        mbx.put(tr);           // Send the transaction to the scoreboard
+        tr.sum = acif.sum;  // Read DUT sum output directly from the interface
+        mbx.put(tr);        // Send the transaction to the scoreboard
         $display("Captured sum: %0d", tr.sum);  // Debug statement
     end
 endtask : run
