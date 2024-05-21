@@ -17,7 +17,6 @@ interface ac_if (input bit clk);
     modport test (
         clocking cb,
         input clk,
-        input sum,  // Added sum here to make it accessible
         output rst
     );
 
