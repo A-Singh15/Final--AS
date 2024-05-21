@@ -19,8 +19,7 @@ endfunction : new
 
 task generator::run();
     tr = new();
-    int i;
-    for (i = 0; i < 100; i++) begin // Limiting to 100 transactions
+    for (int i = 0; i < 100; i++) begin // Limiting to 100 transactions
         tr.randomize();              // Randomize the transaction
         mbx.put(tr);                 // Send the transaction to the driver
         $display("Generated transaction %0d with input: %0d", i, tr.in); // Debug statement
