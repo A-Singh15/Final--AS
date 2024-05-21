@@ -12,23 +12,11 @@ class driver;
     endfunction
 
     task run();
-        // Apply reset
-        acif.cb.rst <= 1;
-        repeat (2) @(acif.cb);
-        acif.cb.rst <= 0;
-
-        // Check reset operation
-        if (acif.cb.sum == 0)
-            $display("Reset successful.");
-        else
-            $display("Reset failed.");
+      
 
         // Main driving loop
-        bit [15:0] initial_sum = acif.cb.sum;
         while (1) begin
             mbx.get(tr);
-            // Adjust the transaction sum to account for the initial sum
-            tr.sum = initial_sum + tr.sum;
             // Acknowledge transaction to generator
             rtn.put(tr);
             // Send transaction to scoreboard
