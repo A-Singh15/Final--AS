@@ -12,7 +12,11 @@ class driver;
     endfunction
 
     task run();
-      
+        // Apply reset
+        acif.cb.rst <= 1;
+        repeat (2) @(acif.cb);
+        acif.cb.rst <= 0;
+
 
         // Main driving loop
         while (1) begin
