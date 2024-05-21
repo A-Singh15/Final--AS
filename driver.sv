@@ -36,7 +36,6 @@ task driver::run();
         // Drive the DUT interface
         acif.in <= tr.in;
         @(acif.clk);
-        $display("Driving input %0h to DUT at time %0t", tr.in, $time);
     end
 endtask : run
 
