@@ -31,14 +31,16 @@ task scoreboard::run();
         cov.sample();                  // Perform coverage sample
 
         // Compute expected DUT sum output
-        exp_sum = exp_sum + tr_in.in;
-        if (exp_sum > 16'hFFFF) exp_sum = 16'hFFFF;
+        if (exp_sum + tr_in.in > 16'hFFFF)
+            exp_sum = 16'hFFFF;
+        else
+            exp_sum = exp_sum + tr_in.in;
 
         mbx_mon.get(tr_out);           // Get a transaction from the monitor
 
         // Compare the obtained DUT sum output with the expected sum output
         if (tr_out.sum == exp_sum)
-            $display("PASS: sum output is correct");
+            $display("PASS: sum output is correct, expected sum=%0h, obtained sum=%0h", exp_sum, tr_out.sum);
         else
             $display("FAIL: expected sum=%0h, obtained sum=%0h", exp_sum, tr_out.sum);
     end
