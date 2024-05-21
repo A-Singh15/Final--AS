@@ -15,26 +15,17 @@ endfunction : new
 
 
 task monitor::run();
-  bit rst_tmp;
+    // Wait for reset to be applied and removed
+    wait (acif.cb.rst == 1);
+    wait (acif.cb.rst == 0);
 
-  // Wait for reset to be applied and removed
-  do begin
-    @(posedge acif.clk);
-    rst_tmp = acif.rst;
-  end while (rst_tmp == 0);
-
-  do begin
-    @(posedge acif.clk);
-    rst_tmp = acif.rst;
-  end while (rst_tmp == 1);
-
-  // Monitor DUT output in each clock cycle
-  forever begin
-    @(posedge acif.clk);
-    tr.sum = acif.cb.sum;  // Read DUT sum output from clocking block
-    mbx.put(tr);           // Send the transaction to the scoreboard
-    $display("Captured sum: %0d", tr.sum);  // Debug statement
-  end
+    // Monitor DUT output in each clock cycle
+    for (int i = 0; i < 100; i++) begin
+        @(posedge acif.clk);
+        tr.sum = acif.cb.sum;  // Read DUT sum output from clocking block
+        mbx.put(tr);           // Send the transaction to the scoreboard
+        $display("Captured sum: %0d", tr.sum);  // Debug statement
+    end
 endtask : run
 
 task monitor::wrap_up();
