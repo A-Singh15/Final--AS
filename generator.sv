@@ -18,14 +18,15 @@ function generator::new(mailbox mbx, rtn);
 endfunction : new
 
 task generator::run();
-    tr = new();
-    forever begin
-        tr.randomize();               // Randomize the transaction
-        mbx.put(tr);                  // Send the transaction to the driver
-        rtn.get(tr);                  // Wait for acknowledgment from the driver
-    end
-	
+  tr = new();
+  forever begin
+    tr.randomize();               // Randomize the transaction
+    mbx.put(tr);                  // Send the transaction to the driver
+    $display("Generated transaction with input: %0d", tr.in); // Debug statement
+    rtn.get(tr);                  // Wait for acknowledgment from the driver
+  end
 endtask : run
+
 
 task generator::wrap_up();
 	//empty for now
