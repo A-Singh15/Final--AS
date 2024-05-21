@@ -19,7 +19,6 @@ task monitor::run();
         @(posedge acif.clk);
         tr.sum = acif.sum;
         mbx_scb.put(tr);
-        $display("Monitor: Captured sum = %0h at time %0t", tr.sum, $time);
     end
 endtask : run
 
