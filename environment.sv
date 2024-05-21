@@ -26,14 +26,16 @@ class environment;
     endfunction : build
 
     // Run task to start the components
-    task run();
-        fork
-            gen.run();
-            drv.run();
-            mon.run();
-            scb.run();
-        join_none
-    endtask : run
+   task run();
+    time timeout = 100000; // Set an appropriate timeout value
+    fork
+        gen.run();
+        drv.run();
+        mon.run();
+        scb.run();
+        #timeout disable fork; // Terminate all forked processes after timeout
+    join_none
+endtask : run
 
     // Wrap up task to finish the simulation
     task wrap_up();
