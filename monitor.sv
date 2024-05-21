@@ -21,13 +21,12 @@ task monitor::run();
 
     // Monitor DUT output in each clock cycle
     forever begin
-        @(posedge acif.cb.clk);
+        @(posedge acif.clk);
         tr.sum = acif.cb.sum;          // Read DUT sum output
         mbx.put(tr);                   // Send the transaction to the scoreboard
     end
 endtask : run
 
-	
 task monitor::wrap_up();
 	//empty for now
 endtask : wrap_up
