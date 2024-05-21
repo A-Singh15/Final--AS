@@ -24,8 +24,11 @@ class driver;
             $display("Reset failed.");
 
         // Main driving loop
+        bit [15:0] initial_sum = acif.cb.sum;
         while (1) begin
             mbx.get(tr);
+            // Adjust the transaction sum to account for the initial sum
+            tr.sum = initial_sum + tr.sum;
             // Acknowledge transaction to generator
             rtn.put(tr);
             // Send transaction to scoreboard
