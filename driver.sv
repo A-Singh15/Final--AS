@@ -36,9 +36,11 @@ task driver::run();
         rtn.put(tr);                   // Acknowledge the transaction to the generator
         mbx_scb.put(tr);               // Send the transaction to the scoreboard
         acif.cb.in <= tr.in;           // Drive the DUT interface with the transaction
+        $display("Driving input: %0d", tr.in);  // Debug statement
         @(posedge acif.clk);           // Wait for a clock cycle
     end
 endtask : run
+
 
 task driver::wrap_up();
 	wait (acif.cb.sum == 16'hFFFF);
