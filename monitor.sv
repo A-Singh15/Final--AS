@@ -3,21 +3,25 @@ class monitor;
     mailbox mbx_scb;
     transaction tr;
 
-    function new(mailbox mbx_scb, input virtual ac_if.test acif);
-        this.mbx_scb = mbx_scb;
-        this.acif = acif;
-        tr = new();
-    endfunction
+    extern function new(mailbox mbx_scb, input virtual ac_if.test acif);
+    extern virtual task run();
+    extern virtual task wrap_up();
+endclass : monitor
 
-    task run();
-        while (1) begin
-            @(posedge acif.clk);
-            tr.sum = acif.sum;
-            mbx_scb.put(tr);
-        end
-    endtask
+function monitor::new(mailbox mbx_scb, input virtual ac_if.test acif);
+    this.mbx_scb = mbx_scb;
+    this.acif = acif;
+    tr = new();
+endfunction : new
 
-    task wrap_up();
-        // empty for now
-    endtask
-endclass
+task monitor::run();
+    while (1) begin
+        @(posedge acif.clk);
+        tr.sum = acif.sum;
+        mbx_scb.put(tr);
+    end
+endtask : run
+
+task monitor::wrap_up();
+    //empty for now
+endtask : wrap_up
