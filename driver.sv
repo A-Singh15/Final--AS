@@ -18,27 +18,27 @@ endfunction : new
 
 
 task driver::run();
-  // Apply reset at the beginning
-  acif.cb.rst <= 1;
-  repeat (2) @(posedge acif.clk);
-  acif.cb.rst <= 0;
-  repeat (2) @(posedge acif.clk);
+    // Apply reset at the beginning
+    acif.cb.rst <= 1;
+    repeat (2) @(posedge acif.clk);
+    acif.cb.rst <= 0;
+    repeat (2) @(posedge acif.clk);
 
-  // Self-check reset
-  if (acif.cb.sum == 0) 
-    $display("Reset operation successful: sum is zero");
-  else 
-    $display("Reset operation failed: sum is not zero");
+    // Self-check reset
+    if (acif.cb.sum == 0) 
+        $display("Reset operation successful: sum is zero");
+    else 
+        $display("Reset operation failed: sum is not zero");
 
-  // Main operation loop
-  forever begin
-    mbx.get(tr);                   // Get a transaction from the generator
-    rtn.put(tr);                   // Acknowledge the transaction to the generator
-    mbx_scb.put(tr);               // Send the transaction to the scoreboard
-    acif.cb.in <= tr.in;           // Drive the DUT interface with the transaction
-    $display("Driving input: %0d", tr.in);  // Debug statement
-    @(posedge acif.clk);           // Wait for a clock cycle
-  end
+    // Main operation loop
+    for (int i = 0; i < 100; i++) begin
+        mbx.get(tr);                   // Get a transaction from the generator
+        rtn.put(tr);                   // Acknowledge the transaction to the generator
+        mbx_scb.put(tr);               // Send the transaction to the scoreboard
+        acif.cb.in <= tr.in;           // Drive the DUT interface with the transaction
+        $display("Driving input: %0d", tr.in);  // Debug statement
+        @(posedge acif.clk);           // Wait for a clock cycle
+    end
 endtask : run
 
 
