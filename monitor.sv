@@ -27,4 +27,4 @@ endtask : run
 task monitor::wrap_up();
     // empty for now
 endtask : wrap_up
-endclass
+
