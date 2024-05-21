@@ -33,8 +33,10 @@ task monitor::run();
         @(posedge acif.clk);
         tr.sum = acif.cb.sum;  // Read DUT sum output from clocking block
         mbx.put(tr);           // Send the transaction to the scoreboard
+        $display("Captured sum: %0d", tr.sum);  // Debug statement
     end
 endtask : run
+
 
 
 
