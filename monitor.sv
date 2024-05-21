@@ -15,6 +15,8 @@ function monitor::new(mailbox mbx_scb, input virtual ac_if.test acif);
 endfunction : new
 
 task monitor::run();
+    // Introduce a 1-clock cycle delay
+    @(posedge acif.clk);
     while (1) begin
         @(posedge acif.clk);
         tr.sum = acif.sum;
@@ -23,5 +25,6 @@ task monitor::run();
 endtask : run
 
 task monitor::wrap_up();
-    //empty for now
+    // empty for now
 endtask : wrap_up
+endclass
