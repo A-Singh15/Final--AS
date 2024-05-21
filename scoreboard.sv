@@ -43,3 +43,8 @@ task scoreboard::run();
             $display("FAIL: expected sum=%0h, obtained sum=%0h", exp_sum, tr_out.sum);
     end
 endtask : run
+
+task scoreboard::wrap_up();
+    // Implementation for wrap up, could be any final checks or cleanup
+    $display("Simulation wrap up for scoreboard.");
+endtask : wrap_up
