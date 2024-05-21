@@ -18,13 +18,13 @@ function generator::new(mailbox mbx, rtn);
 endfunction : new
 
 task generator::run();
-	//write the run task here		
-
-
-
-
-
-
+    tr = new();
+    forever begin
+        tr.randomize();               // Randomize the transaction
+        mbx.put(tr);                  // Send the transaction to the driver
+        rtn.get(tr);                  // Wait for acknowledgment from the driver
+    end
+	
 endtask : run
 
 task generator::wrap_up();
