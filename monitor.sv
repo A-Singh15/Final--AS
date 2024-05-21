@@ -15,9 +15,18 @@ endfunction : new
 
 
 task monitor::run();
+    bit rst_tmp;
+
     // Wait for reset to be applied and removed
-    wait (acif.cb.rst == 1);
-    wait (acif.cb.rst == 0);
+    do begin
+        @(posedge acif.clk);
+        rst_tmp = acif.cb.rst;
+    end while (rst_tmp == 0);
+
+    do begin
+        @(posedge acif.clk);
+        rst_tmp = acif.cb.rst;
+    end while (rst_tmp == 1);
 
     // Monitor DUT output in each clock cycle
     forever begin
@@ -26,6 +35,7 @@ task monitor::run();
         mbx.put(tr);                   // Send the transaction to the scoreboard
     end
 endtask : run
+
 
 task monitor::wrap_up();
 	//empty for now
