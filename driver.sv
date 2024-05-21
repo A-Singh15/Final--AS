@@ -30,6 +30,7 @@ task driver::run();
     while (1) begin
         mbx.get(tr);
         // Acknowledge transaction to generator
+        tr.sum = acif.sum;
         rtn.put(tr);
         // Send transaction to scoreboard
         mbx_scb.put(tr);
@@ -38,6 +39,7 @@ task driver::run();
         @(acif.clk);
     end
 endtask : run
+
 
 task driver::wrap_up();
     wait (acif.sum == 16'hFFFF);
