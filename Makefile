@@ -1,5 +1,6 @@
 # Makefile for systemverilog simulation
 RTL= ./accumulator.v 
+#SVTB = ./top.sv 
 SVTB = ./generator.sv ./driver.sv ./monitor.sv ./scoreboard.sv ./environment.sv ./top.sv ./test.sv ./interface.sv
 SEED = 1
 
@@ -11,12 +12,9 @@ run:
 	./simv -l simv.log +ntb_random_seed=$(SEED)
 
 compile:
-	vcs -l vcs.log -sverilog -debug_all -full64 $(SVTB) $(RTL) +define+VPD_ON
+	vcs -l vcs.log -sverilog -debug_all -full64 $(SVTB) $(RTL)
 
 dve:
-	dve -vpd vcdplus.vpd &
-
-wave:
 	dve -vpd vcdplus.vpd &
 
 debug:
@@ -39,7 +37,6 @@ help:
 	@echo  " compile    => Compile the TB and DUT.                                 "
 	@echo  " run        => Run the simulation.                                     "
 	@echo  " dve        => Run dve in post-processing mode                         "
-	@echo  " wave       => Run dve to view waveforms                               "
 	@echo  " debug      => Runs simulation interactively with dve                  "
 	@echo  " clean      => Remove all intermediate simv and log files.             "
 	@echo  "                                                                       "
@@ -49,3 +46,4 @@ help:
 	@echo  " nuke       => Erase all changes. Put all files back to original state "
 	@echo  "								       "
 	@echo ==========================================================================
+
