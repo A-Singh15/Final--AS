@@ -1,13 +1,12 @@
 program automatic test(ac_if.test acif);
+    environment env;
+    int num_transactions = 100; // Set the number of transactions
 
-environment env;
-initial begin
-	$vcdpluson;
-	env = new(acif);
-	env.build();
-	env.run();
-	env.wrap_up();
-end
-
+    initial begin
+        $vcdpluson;
+        env = new(acif, num_transactions);
+        env.build();
+        env.run();
+        env.wrap_up();
+    end
 endprogram
-
