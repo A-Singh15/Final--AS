@@ -20,9 +20,9 @@ endfunction : new
 task driver::run();
     // Apply reset at the beginning
     acif.cb.rst <= 1;
-    repeat (2) @(posedge acif.cb.clk);
+    repeat (2) @(posedge acif.clk);
     acif.cb.rst <= 0;
-    repeat (2) @(posedge acif.cb.clk);
+    repeat (2) @(posedge acif.clk);
 
     // Self-check reset
     if (acif.cb.sum == 0) 
@@ -36,10 +36,9 @@ task driver::run();
         rtn.put(tr);                   // Acknowledge the transaction to the generator
         mbx_scb.put(tr);               // Send the transaction to the scoreboard
         acif.cb.in <= tr.in;           // Drive the DUT interface with the transaction
-        @(posedge acif.cb.clk);        // Wait for a clock cycle
+        @(posedge acif.clk);           // Wait for a clock cycle
     end
 endtask : run
-
 	
 task driver::wrap_up();
 	wait (acif.cb.sum == 16'hFFFF);
