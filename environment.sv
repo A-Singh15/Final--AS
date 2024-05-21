@@ -27,7 +27,7 @@ class environment;
 
     // Run task to start the components
    task run();
-    time timeout = 100000; // Set an appropriate timeout value
+    time timeout = 100; // Set an appropriate timeout value
     fork
         gen.run();
         drv.run();
