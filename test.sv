@@ -1,13 +1,17 @@
-program automatic test(ac_if.test acif);
+`timescale 1ns/1ps
 
-environment env;
-initial begin
-	$vcdpluson;
-	env = new(acif);
-	env.build();
-	env.run();
-	env.wrap_up();
-end
+program automatic test(ac_if acif);
 
-endprogram
+    // Declare the environment
+    environment env;
 
+    // Initial block to initialize and run the environment
+    initial begin
+        $vcdpluson;
+        env = new(acif);
+        env.build();
+        env.run();
+        env.wrap_up();
+    end
+
+endprogram : test
