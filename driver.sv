@@ -23,13 +23,6 @@ class driver;
         else
             $display("Reset failed.");
 
-        // Initial transaction to set up the initial sum
-        @(acif.cb);
-        tr = new();
-        tr.in = 8'h00;  // Initial input value
-        tr.sum = acif.cb.sum;  // Initial sum value
-        mbx_scb.put(tr);  // Send initial transaction to the scoreboard
-
         // Main driving loop
         while (1) begin
             mbx.get(tr);
