@@ -39,7 +39,7 @@ task driver::run();
         @(posedge acif.clk);           // Wait for a clock cycle
     end
 endtask : run
-	
+
 task driver::wrap_up();
 	wait (acif.cb.sum == 16'hFFFF);
 	@acif.cb;
