@@ -1,15 +1,3 @@
-/*interface ac_if(input logic clk, input logic rst);
-    logic [7:0] in;
-    logic [15:0] sum;
-
-    modport test (
-        input sum, 
-        output in, 
-        input rst, 
-        input clk
-    );
-endinterface : ac_if
-*/
 `timescale 1ns/1ps
 
 interface ac_if (input bit clk);
